@@ -4,6 +4,8 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'rpm'
 apply plugin: 'idea'
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
 
 def mainClassName = "org.sharedhealth.mci.launch.Main"
 
@@ -24,13 +26,15 @@ jar {
 }
 
 ext.libraries = [
+        apache_log4j_core : "org.apache.logging.log4j:log4j-core:2.6.2"
 ]
 
 
 ext.testLibraries = [
         junit         : "junit:junit:4.12",
-        mockito       : "org.mockito:mockito-all:1.10.19",
+        mockito       : "org.mockito:mockito-all:1.10.19"
 ]
+
 dependencies {
     compile libraries.values()
     testCompile testLibraries.values()
@@ -40,7 +44,14 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.12'
 }
 
-jar.dependsOn 'checkStyle'
+checkstyle {
+    configFile rootProject.file('config/checkstyle/checkstyle.xml')
+}
+
+pmd {
+    toolVersion = '5.0.5'
+    ruleSetFiles = files("${project.projectDir}/config/pmd/rulesets.xml")
+}
 
 def exportEnvironmentVariablesToXML(defaults) {
     defaults.remove(defaults.envs)
