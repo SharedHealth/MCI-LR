@@ -13,6 +13,9 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    flatDir {
+        dirs "${rootDir}/lib"
+    }
 }
 
 jar {
@@ -26,19 +29,37 @@ jar {
 }
 
 ext.libraries = [
-        apache_log4j_core : "org.apache.logging.log4j:log4j-core:2.6.2"
+        apache_log4j_core           : "org.apache.logging.log4j:log4j-core:2.6.2",
+        jackson_core                : "com.fasterxml.jackson.core:jackson-core:2.8.1",
+        jackson_annotations         : "com.fasterxml.jackson.core:jackson-annotations:2.8.1",
+        cassandra_driver_core       : "com.datastax.cassandra:cassandra-driver-core:3.0.3",
+        cassandra_driver_mapping    : "com.datastax.cassandra:cassandra-driver-mapping:3.0.3",
+        cassandra_all               : "org.apache.cassandra:cassandra-all:2.1.0",
 ]
 
-
 ext.testLibraries = [
-        junit         : "junit:junit:4.12",
-        mockito       : "org.mockito:mockito-all:1.10.19"
+        junit                       : "junit:junit:4.12",
+        mockito                     : "org.mockito:mockito-all:1.10.19",
+        mutagen                     : "com.toddfast.mutagen:mutagen:0.3.0",
+        mutagen_cassandra           : "com.toddfast.mutagen:mutagen-cassandra-0.4.2-SNAPSHOT",
+        cassandra_unit              : "org.cassandraunit:cassandra-unit:2.0.2.2",
+        system_rules                : "com.github.stefanbirkner:system-rules:1.16.0",
 ]
 
 dependencies {
     compile libraries.values()
     testCompile testLibraries.values()
 }
+
+configurations {
+    migration {
+        extendsFrom compile
+    }
+    all*.exclude group: 'org.slf4j', module: "log4j-over-slf4j"
+    all*.exclude group: 'ch.qos.logback', module: "logback-classic"
+    all*.exclude group: 'ch.qos.logback', module: "logback-core"
+}
+
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.12'

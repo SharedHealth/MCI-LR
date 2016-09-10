@@ -1,7 +1,42 @@
 package org.sharedhealth.mci.launch;
 
+import org.sharedhealth.mci.client.LRClient;
+import org.sharedhealth.mci.service.LocationService;
+import org.sharedhealth.mci.task.LRSyncTask;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 public class Main {
+    private static LRSyncTask lrSyncTask;
+
+    public static final String LR_DIVISION_URI_PATH = "/list/division";
+    public static final String LR_DISTRICT_URI_PATH = "/list/district";
+    public static final String LR_UPAZILA_URI_PATH = "/list/upazila";
+    public static final String LR_PAURASAVA_PATH = "/list/paurasava";
+    public static final String LR_UNION_URI_PATH = "/list/union";
+    public static final String LR_WARD_URI_PATH = "/list/ward";
+
+    public static final String DIVISION_TYPE = "DIVISION";
+    public static final String DISTRICT_TYPE = "DISTRICT";
+    public static final String UPAZILA_TYPE = "UPAZILA";
+    public static final String PAURASAVA_TYPE = "PAURASAVA";
+    public static final String UNION_TYPE = "UNION";
+    public static final String WARD_TYPE = "WARD";
+
+    private static void createLRSyncScheduler() {
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+        scheduler.scheduleAtFixedRate(() -> {
+            lrSyncTask.syncDivision();
+        }, 1000, 1000, TimeUnit.MILLISECONDS);
+    }
+
     public static void main(String[] args) {
-        System.out.println("Started");
+        LocationService locationService = new LocationService();
+        LRClient lrClient = new LRClient();
+        lrSyncTask = new LRSyncTask(locationService, lrClient);
+        createLRSyncScheduler();
+
     }
 }
