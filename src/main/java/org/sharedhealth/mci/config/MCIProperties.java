@@ -4,7 +4,7 @@ import org.sharedhealth.mci.util.Constants;
 
 import java.util.Map;
 
-import static org.sharedhealth.mci.util.StringUtils.ensurePrefix;
+import static org.sharedhealth.mci.util.StringUtils.ensureSuffix;
 
 public class MCIProperties {
     private static MCIProperties mciProperties;
@@ -20,6 +20,9 @@ public class MCIProperties {
     private String lrSyncFixedDelay;
     private String lrSyncInitialDelay;
 
+    private String idpClientId;
+    private String idpXAuthToken;
+
     private MCIProperties() {
         Map<String, String> env = System.getenv();
         this.cassandraKeySpace = env.get("CASSANDRA_KEYSPACE");
@@ -32,6 +35,8 @@ public class MCIProperties {
         this.lrUrl = env.get("LR_URL");
         this.lrSyncFixedDelay = env.get("LR_SYNC_FIXED_DELAY");
         this.lrSyncInitialDelay = env.get("LR_SYNC_INITIAL_DELAY");
+        this.idpClientId = env.get("IDP_CLIENT_ID");
+        this.idpXAuthToken = env.get("IDP_X_AUTH_TOKEN");
     }
 
     public static MCIProperties getInstance() {
@@ -60,16 +65,14 @@ public class MCIProperties {
         return cassandraPassword;
     }
 
-    public int getCassandraTimeout() {
-        return Integer.parseInt(cassandraTimeout);
-    }
+    public int getCassandraTimeout() {return Integer.parseInt(cassandraTimeout);}
 
     public int getCassandraVersion() {
         return Integer.parseInt(cassandraVersion);
     }
 
     public String getLrUrl() {
-        return ensurePrefix(lrUrl, Constants.URL_SEPARATOR);
+        return ensureSuffix(lrUrl, Constants.URL_SEPARATOR);
     }
 
     public String getLrSyncFixedDelay() {
@@ -79,4 +82,8 @@ public class MCIProperties {
     public String getLrSyncInitialDelay() {
         return lrSyncInitialDelay;
     }
+
+    public String getIdpClientId() { return idpClientId; }
+
+    public String getIdpXAuthToken() { return idpXAuthToken; }
 }

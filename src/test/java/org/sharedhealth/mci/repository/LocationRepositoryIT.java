@@ -1,11 +1,15 @@
 package org.sharedhealth.mci.repository;
 
+import com.datastax.driver.core.Session;
+import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sharedhealth.mci.BaseIntegrationTest;
 import org.sharedhealth.mci.config.MCICassandraConfig;
+import org.sharedhealth.mci.model.LRMarker;
 import org.sharedhealth.mci.model.Location;
 import org.sharedhealth.mci.model.LocationData;
 
@@ -13,16 +17,28 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.sharedhealth.mci.util.Constants.CF_LOCATIONS;
+import static org.sharedhealth.mci.util.Constants.CF_LR_MARKERS;
 
 public class LocationRepositoryIT extends BaseIntegrationTest {
     private Mapper<Location> locationMapper;
+    private Mapper<LRMarker> lrMarkerMapper;
     private LocationRepository locationRepository;
+    private MappingManager mappingManager;
 
     @Before
     public void setUp() throws Exception {
-        MappingManager mappingManager = MCICassandraConfig.getInstance().getMappingManager();
+        mappingManager = MCICassandraConfig.getInstance().getMappingManager();
         locationMapper = mappingManager.mapper(Location.class);
+        lrMarkerMapper = mappingManager.mapper(LRMarker.class);
         locationRepository = new LocationRepository(mappingManager);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        Session session = mappingManager.getSession();
+        session.execute(QueryBuilder.truncate(CF_LOCATIONS));
+        session.execute(QueryBuilder.truncate(CF_LR_MARKERS));
     }
 
     @Test

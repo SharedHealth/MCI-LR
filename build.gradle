@@ -35,11 +35,13 @@ ext.libraries = [
         cassandra_driver_core       : "com.datastax.cassandra:cassandra-driver-core:3.0.3",
         cassandra_driver_mapping    : "com.datastax.cassandra:cassandra-driver-mapping:3.0.3",
         cassandra_all               : "org.apache.cassandra:cassandra-all:2.1.0",
+        apache_httpclient           : "org.apache.httpcomponents:httpclient:4.3.5",
 ]
 
 ext.testLibraries = [
         junit                       : "junit:junit:4.12",
         mockito                     : "org.mockito:mockito-all:1.10.19",
+        wiremock                    : "com.github.tomakehurst:wiremock:1.58",
         mutagen                     : "com.toddfast.mutagen:mutagen:0.3.0",
         mutagen_cassandra           : "com.toddfast.mutagen:mutagen-cassandra-0.4.2-SNAPSHOT",
         cassandra_unit              : "org.cassandraunit:cassandra-unit:2.0.2.2",

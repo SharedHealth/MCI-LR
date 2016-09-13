@@ -1,0 +1,32 @@
+[
+  {
+    "code": "30",
+    "id": "30",
+    "name": "Dhaka",
+    "type": "division",
+    "active": 1,
+    "updatedAt": "2014-11-19 17:45:38",
+    "hierarchy": [
+      {
+        "code": "30",
+        "name": "Dhaka",
+        "type": "division"
+      }
+    ]
+  },
+  {
+    "code": "20",
+    "id": "20",
+    "name": "Chittagong",
+    "type": "division",
+    "active": 1,
+    "updatedAt": "2014-11-19 17:45:38",
+    "hierarchy": [
+      {
+        "code": "20",
+        "name": "Chittagong",
+        "type": "division"
+      }
+    ]
+  }
+]

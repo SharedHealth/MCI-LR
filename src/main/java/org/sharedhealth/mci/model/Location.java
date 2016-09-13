@@ -5,21 +5,22 @@ import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
 
-@Table(name = "locations")
-public class Location {
+import static org.sharedhealth.mci.util.Constants.*;
 
-    @Column(name = "code")
-    @PartitionKey(value = 0)
+@Table(name = CF_LOCATIONS)
+public class Location {
+    @Column(name = CODE)
+    @PartitionKey()
     private String code;
 
-    @Column(name = "name")
+    @Column(name = NAME)
     private String name;
 
-    @Column(name = "active")
+    @Column(name = ACTIVE)
     private String active;
 
     @PartitionKey(value = 1)
-    @Column(name = "parent")
+    @Column(name = PARENT)
     private String parent;
 
     public String getCode() {
