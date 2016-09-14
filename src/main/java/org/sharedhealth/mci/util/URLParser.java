@@ -2,6 +2,7 @@ package org.sharedhealth.mci.util;
 
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ public class URLParser {
             String key = index > 0 ? pair.substring(0, index) : pair;
             if (!parameters.containsKey(key)) {
                 String value = index > 0 && pair.length() > index + 1 ? pair.substring(index + 1) : null;
-                parameters.put(key, value);
+                parameters.put(key, URLEncoder.encode(value, "UTF-8"));
             }
         }
         return parameters;

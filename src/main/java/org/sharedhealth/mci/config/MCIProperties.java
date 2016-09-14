@@ -1,10 +1,6 @@
 package org.sharedhealth.mci.config;
 
-import org.sharedhealth.mci.util.Constants;
-
 import java.util.Map;
-
-import static org.sharedhealth.mci.util.StringUtils.ensureSuffix;
 
 public class MCIProperties {
     private static MCIProperties mciProperties;
@@ -71,9 +67,7 @@ public class MCIProperties {
         return Integer.parseInt(cassandraVersion);
     }
 
-    public String getLrUrl() {
-        return ensureSuffix(lrUrl, Constants.URL_SEPARATOR);
-    }
+    public String getLrUrl() {return lrUrl;}
 
     public String getLrSyncFixedDelay() {
         return lrSyncFixedDelay;
@@ -83,7 +77,7 @@ public class MCIProperties {
         return lrSyncInitialDelay;
     }
 
-    public String getIdpClientId() { return idpClientId; }
+    public String getIdpClientId() {return idpClientId;}
 
-    public String getIdpXAuthToken() { return idpXAuthToken; }
+    public String getIdpXAuthToken() {return idpXAuthToken;}
 }

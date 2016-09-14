@@ -14,15 +14,14 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
     private static LRSyncTask lrSyncTask;
-    private static MCIProperties mciProperties;
 
     public static final String LR_DIVISION_URI_PATH = "/list/division";
     public static final String LR_DISTRICT_URI_PATH = "/list/district";
     public static final String LR_UPAZILA_URI_PATH = "/list/upazila";
     public static final String LR_PAURASAVA_PATH = "/list/paurasava";
     public static final String LR_UNION_URI_PATH = "/list/union";
-
     public static final String LR_WARD_URI_PATH = "/list/ward";
+
     public static final String DIVISION_TYPE = "DIVISION";
     public static final String DISTRICT_TYPE = "DISTRICT";
     public static final String UPAZILA_TYPE = "UPAZILA";
@@ -34,16 +33,20 @@ public class Main {
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(() -> {
             lrSyncTask.syncLocation(LR_DIVISION_URI_PATH, DIVISION_TYPE);
+            lrSyncTask.syncLocation(LR_DISTRICT_URI_PATH, DISTRICT_TYPE);
+            lrSyncTask.syncLocation(LR_UPAZILA_URI_PATH, UPAZILA_TYPE);
+            lrSyncTask.syncLocation(LR_PAURASAVA_PATH, PAURASAVA_TYPE);
+            lrSyncTask.syncLocation(LR_UNION_URI_PATH, UNION_TYPE);
+            lrSyncTask.syncLocation(LR_WARD_URI_PATH, WARD_TYPE);
         }, 1000, 1000, TimeUnit.MILLISECONDS);
     }
 
     public static void main(String[] args) {
         MappingManager mappingManager = MCICassandraConfig.getInstance().getMappingManager();
         LocationRepository locationRepository = new LocationRepository(mappingManager);
-        LRClient lrClient = new LRClient();
-        mciProperties = MCIProperties.getInstance();
         LocationService locationService = new LocationService(locationRepository);
-        lrSyncTask = new LRSyncTask(locationService, lrClient, mciProperties);
+        lrSyncTask = new LRSyncTask(locationService, new LRClient(), MCIProperties.getInstance());
+
         createLRSyncScheduler();
 
     }
