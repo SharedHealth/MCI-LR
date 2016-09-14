@@ -42,10 +42,11 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        MCIProperties instance = MCIProperties.getInstance();
         MappingManager mappingManager = MCICassandraConfig.getInstance().getMappingManager();
         LocationRepository locationRepository = new LocationRepository(mappingManager);
         LocationService locationService = new LocationService(locationRepository);
-        lrSyncTask = new LRSyncTask(locationService, new LRClient(), MCIProperties.getInstance());
+        lrSyncTask = new LRSyncTask(locationService, new LRClient(), instance);
 
         createLRSyncScheduler();
 

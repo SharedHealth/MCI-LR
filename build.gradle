@@ -1,5 +1,4 @@
 group 'org.sharedhealth.mci'
-version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'rpm'
@@ -151,7 +150,7 @@ test {
     environment localEnv
 }
 
-task runUpdate(type: JavaExec) {
+task runMCILR(type: JavaExec) {
     Properties properties = new Properties();
     properties.load(new FileInputStream(new File('env/local.properties')))
     main = mainClassName
@@ -159,7 +158,7 @@ task runUpdate(type: JavaExec) {
     environment properties
 }
 
-task debugUpdate(type: JavaExec) {
+task debugMCILR(type: JavaExec) {
     Properties properties = new Properties();
     properties.load(new FileInputStream(new File('env/local.properties')))
     main = mainClassName
