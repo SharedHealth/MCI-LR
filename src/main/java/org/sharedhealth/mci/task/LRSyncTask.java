@@ -55,6 +55,8 @@ public class LRSyncTask {
 
             if (locations == null || locations.size() == 0) return;
             String lastFeedUrl = getLastFeedUrl(lrUriPath, initialQueryParams, locations);
+
+            logger.info("Inserting {} locations of type {}", locations.size(), type);
             locationService.saveOrUpdateLocations(locations);
             locationService.saveOrUpdateLRMarker(type, lastFeedUrl);
         } catch (Exception e) {

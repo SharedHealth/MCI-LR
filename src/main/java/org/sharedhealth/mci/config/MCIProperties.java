@@ -69,12 +69,12 @@ public class MCIProperties {
 
     public String getLrUrl() {return lrUrl;}
 
-    public String getLrSyncFixedDelay() {
-        return lrSyncFixedDelay;
+    public int getLrSyncFixedDelay() {
+        return Integer.parseInt(lrSyncFixedDelay);
     }
 
-    public String getLrSyncInitialDelay() {
-        return lrSyncInitialDelay;
+    public int getLrSyncInitialDelay() {
+        return Integer.parseInt(lrSyncInitialDelay);
     }
 
     public String getIdpClientId() {return idpClientId;}

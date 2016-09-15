@@ -13,6 +13,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
+    private static MCIProperties mciProperties;
     private static LRSyncTask lrSyncTask;
 
     public static final String LR_DIVISION_URI_PATH = "/list/division";
@@ -38,15 +39,15 @@ public class Main {
             lrSyncTask.syncLocation(LR_PAURASAVA_PATH, PAURASAVA_TYPE);
             lrSyncTask.syncLocation(LR_UNION_URI_PATH, UNION_TYPE);
             lrSyncTask.syncLocation(LR_WARD_URI_PATH, WARD_TYPE);
-        }, 1000, 1000, TimeUnit.MILLISECONDS);
+        }, mciProperties.getLrSyncInitialDelay(), mciProperties.getLrSyncFixedDelay(), TimeUnit.MILLISECONDS);
     }
 
     public static void main(String[] args) {
-        MCIProperties instance = MCIProperties.getInstance();
+        mciProperties = MCIProperties.getInstance();
         MappingManager mappingManager = MCICassandraConfig.getInstance().getMappingManager();
         LocationRepository locationRepository = new LocationRepository(mappingManager);
         LocationService locationService = new LocationService(locationRepository);
-        lrSyncTask = new LRSyncTask(locationService, new LRClient(), instance);
+        lrSyncTask = new LRSyncTask(locationService, new LRClient(), mciProperties);
 
         createLRSyncScheduler();
 
