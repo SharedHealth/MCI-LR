@@ -3,9 +3,6 @@
 
 #Gradle directories
 .gradle/
-gradle/
-gradlew
-gradlew.bat
 
 #Idea directories
 .idea/
