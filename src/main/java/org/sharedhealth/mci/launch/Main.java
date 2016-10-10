@@ -1,6 +1,8 @@
 package org.sharedhealth.mci.launch;
 
 import com.datastax.driver.mapping.MappingManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sharedhealth.mci.client.LRClient;
 import org.sharedhealth.mci.config.MCICassandraConfig;
 import org.sharedhealth.mci.config.MCIProperties;
@@ -13,6 +15,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
+    private static final Logger logger = LogManager.getLogger(Main.class);
+
     private static MCIProperties mciProperties;
     private static LRSyncTask lrSyncTask;
 
@@ -43,6 +47,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        logger.info("Starting MCI-LR");
         mciProperties = MCIProperties.getInstance();
         MappingManager mappingManager = MCICassandraConfig.getInstance().getMappingManager();
         LocationRepository locationRepository = new LocationRepository(mappingManager);
@@ -50,6 +55,5 @@ public class Main {
         lrSyncTask = new LRSyncTask(locationService, new LRClient(), mciProperties);
 
         createLRSyncScheduler();
-
     }
 }
